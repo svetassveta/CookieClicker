@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block body %}
+  <form action ="{%url 'register' %}" method="POST">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button type="submit">Зарегистрироваться</button>
+  </form>
+  <a bref="{% url 'login' %}">Зарегистрироваться снова?</a>
+{% endblock %}
