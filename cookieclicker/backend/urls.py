@@ -6,10 +6,7 @@ boosts_list = views.BoostViewSet.as_view({
     'post': 'create',
 })
 boost_details = views.BoostViewSet.as_view({
-    'get': 'retrieve',
-    'put': 'update',
-    'patch': 'partial_update',
-    'delete': 'destroy',
+    'put': 'partial_update',
 })
 
 urlpatterns = [

@@ -18,13 +18,16 @@ def index(request):
 @api_view(['GET'])
 def call_click(request):
     core = Core.objects.get(user=request.user)
-    is_levelup = core.click()
+    is_levelup, boost_type = core.click()
     if is_levelup:
-        Boost.objects.create(core=core, price=core.coins, power=core.level*20)
+        Boost.objects.create(
+            core=core, price=core.coins, power=core.level*5, type = boost_type,
+        )
     return Response({
         'core': CoreSerializer(core).data,
-        'is_levelup': is_levelup
+        'is_levelup': is_levelup,
         })
+
 
 class BoostViewSet(viewsets.ModelViewSet):
     queryset = Boost.objects.all()
@@ -32,8 +35,19 @@ class BoostViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         core = Core.objects.get(user=self.request.user)
-        boosts = Boost.objects.filter(core=core)
+        boosts = self.queryset.filter(core=core)
         return boosts
+
+    def partial_update(self, request, pk):
+        boost = self.queryset.get(pk=pk)
+        levelup = boost.levelup()
+        if not levelup:
+            return Response({"Недостаточно монеток, друк, иди работай"})
+        old_boost_values, new_boost_values = levelup
+        return Response({
+            "old_boost_values": self.serializer_class(old_boost_values).data,
+            "new_boost_values": self.serializer_class(new_boost_values).data,
+        })
 
 def register(request):
     if request.method == 'POST':
