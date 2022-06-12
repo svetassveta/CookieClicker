@@ -1,28 +1,36 @@
 {% extends "base.html" %}
+{% load static %}
 {% block body %}
 <body>
     <main class="app" align="center">
         <nav class="nav">
-            Привет, {{ user.username }}
+            Привет, {{ user.username }}, играй с кайфом
             <a href="{% url 'logout' %}">Выйти</a>
         </nav>
 
         <div class="container">
+          <p>
             <div id='coins'>{{core.coins}}</div>
-            <button onclick="call_click()">Тык</button>
+          </p>
+            <p>
+            <image height=50% src="{%static 'images/614131.png'%}" onclick="call_click()">
+            </p>
             <p>
                 Невероятная мощь клика: <span id="click_power">{{ core.click_power }}</span>
+            </p>
+            <p>
+                Автоклик: <span id="auto_click_power">{{ core.auto_click_power }}</span>
             </p>
         </div>
 
         <aside class="boosts" id="boosts">
-            <h3>Бусты</h3>
+            <h2>Бусты</h2>
             <div class="boosts-holder" id="boosts-holder">
                 {% for boost in boosts %}
-                    <button class="boost" id="boost_{{boost.id}}" onclick="buy_boost({{boost.id}})">
-                        <p>lvl: <span id="boost_level">{{boost.level}}</span></p>
+                    <button class="boost_{{boost.type}}" id="boost_{{boost.id}}" onclick="buy_boost({{boost.id}})">
+                        <p>Уровень: <span id="boost_level">{{boost.level}}</span></p>
                         <p>+<span id="boost_power">{{boost.power}}</span></p>
-                        <p><span id="boost_price">{{boost.price}}</span></p>
+                        <p>Стоимость: <span id="boost_price">{{boost.price}}</span></p>
                     </button>
                 {% endfor %}
             </div>

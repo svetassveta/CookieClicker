@@ -14,7 +14,8 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('login/', views.user_login, name='login'),
     path('logout/', views.user_logout, name='logout'),
-    path('call_click/', views.call_click, name='call_click'),
+    path('update_coins/', views.update_coins, name='update_coins'),
+    path('core/', views.get_core, name='core'),
     path('boosts/', boosts_list, name='boosts'),
-    path('boosts/<int:pk>', boost_details, name='boosts'),
+    path('boosts/<int:pk>/', boost_details, name='boosts'),
 ]
